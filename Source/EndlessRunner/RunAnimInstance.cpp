@@ -23,6 +23,7 @@ void URunAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	if (Pawn && MovementComponent)
 	{
+		//IsFalling() is mean player is not on the ground
 		bIsInAir = MovementComponent->IsFalling();
 
 		Speed = Pawn->GetVelocity().Size();

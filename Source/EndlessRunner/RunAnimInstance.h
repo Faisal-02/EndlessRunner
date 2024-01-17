@@ -20,7 +20,7 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Movement")
 	float Speed;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Movement")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
 	bool bIsInAir;
 
 	//-----Pointers-----//
@@ -34,4 +34,5 @@ public:
 	//-----Functions-----//
 	virtual void NativeInitializeAnimation() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+	
 };

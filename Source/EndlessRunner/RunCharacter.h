@@ -36,8 +36,8 @@ public:
 	class UCameraComponent* CameraComponent;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* SpringArm;
-
-
+	
+	class UCharacterMovementComponent* MovementComponent;
 	//-----Functions-----//
 	
 	UFUNCTION()

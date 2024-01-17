@@ -4,6 +4,9 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "RunCharacter.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/PawnMovementComponent.h"
+
 // Sets default values
 ARunCharacter::ARunCharacter()
 {
@@ -22,6 +25,19 @@ ARunCharacter::ARunCharacter()
 	CameraComponent -> bUsePawnControlRotation = false;
 	CameraComponent -> SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 
+	MovementComponent = Cast<UCharacterMovementComponent>(GetMovementComponent());
+	
+	//Change properties of MovementComponent
+    if (MovementComponent)
+    {
+    	MovementComponent -> MaxWalkSpeed = 1500.f;
+    	MovementComponent -> JumpZVelocity = 600.f;
+    	MovementComponent -> AirControl = 0.2f;
+    }
+    else
+    {
+    	UE_LOG(LogTemp, Warning, TEXT("Null MovementComponent"));
+    }
 	
 }
 

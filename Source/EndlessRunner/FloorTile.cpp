@@ -32,6 +32,7 @@ AFloorTile::AFloorTile()
 	FloorTrigger =  CreateDefaultSubobject<UBoxComponent>(TEXT("Floor Trigger"));
 	FloorTrigger -> SetupAttachment(SceneComponent);
 	FloorTrigger -> SetBoxExtent(FVector(32.f,500.f,200.f));
+	//Remember to try the different Collision Profiles Names to see the output for each 1 and learn 
 	FloorTrigger -> SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 
 	

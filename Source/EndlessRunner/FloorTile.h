@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/ArrowComponent.h"
 #include "FloorTile.generated.h"
 
 class UBoxComponent;
-class UArrowComponent;
 class USceneComponent;
 class UStaticMeshComponent;
+
 UCLASS()
 class ENDLESSRUNNER_API AFloorTile : public AActor
 {
@@ -51,4 +52,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UBoxComponent* FloorTrigger;
 	//-----Functions-----//
+	FORCEINLINE const FTransform& GetAttachTransform() const
+	{
+		return AttachPoint -> GetComponentTransform();
+	}
+
 };

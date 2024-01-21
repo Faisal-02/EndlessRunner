@@ -7,6 +7,7 @@
 #include "Components/ArrowComponent.h"
 #include "FloorTile.generated.h"
 
+
 class UBoxComponent;
 class USceneComponent;
 class UStaticMeshComponent;
@@ -30,8 +31,9 @@ public:
 
 	//-----Variables-----//
 
-
-
+	UPROPERTY(VisibleAnywhere, Category = "Timer")
+	FTimerHandle TimerHandle;
+	
 	
 	//-----Pointers-----//
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -51,10 +53,25 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UBoxComponent* FloorTrigger;
+
+	UPROPERTY(VisibleAnywhere)
+	class AEndlessRunnerGameModeBase* RunGameMode;
+	
+	
 	//-----Functions-----//
+
+	
 	FORCEINLINE const FTransform& GetAttachTransform() const
 	{
 		return AttachPoint -> GetComponentTransform();
 	}
+
+	UFUNCTION()
+	void OnTriggerBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+
+	UFUNCTION()
+	void DestroyFloorTile();
+
+
 
 };

@@ -13,7 +13,7 @@ void AEndlessRunnerGameModeBase::BeginPlay()
 
 void AEndlessRunnerGameModeBase::CreateInitialFloorTile()
 {
-	for (int i = 0; i <=NumInitialFloorTiles; i++)
+	for (int i = 0; i <NumInitialFloorTiles; i++)
 	{
 		AddFloorTile();
 	}

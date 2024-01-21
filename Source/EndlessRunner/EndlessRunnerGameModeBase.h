@@ -18,20 +18,28 @@ class ENDLESSRUNNER_API AEndlessRunnerGameModeBase : public AGameModeBase
 
 	//-----Variables-----//
 
-	FTransform NextSpawnPoint;
 	
-	
-	//-----Pointer-----//
 	UPROPERTY(EditAnywhere, Category = "Config")
 	TSubclassOf<AFloorTile> FloorTileClass;
-
+	
+	FTransform NextSpawnPoint;
+	
 	UPROPERTY(EditAnywhere, Category = "Config")
 	int32 NumInitialFloorTiles = 10;
 
+	
+	//-----Pointer-----//
+	
+	
+	
 
+
+	
+	
 
 	//-----Function-----//
-	
+
+public:
 	virtual void BeginPlay() override;
 	
 	UFUNCTION(BlueprintCallable)

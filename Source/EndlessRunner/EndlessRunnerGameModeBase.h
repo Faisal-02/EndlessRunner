@@ -26,25 +26,21 @@ class ENDLESSRUNNER_API AEndlessRunnerGameModeBase : public AGameModeBase
 	
 	UPROPERTY(EditAnywhere, Category = "Config")
 	int32 NumInitialFloorTiles = 10;
-
+public:
+	TArray<float> LanesSwitchValue;
 	
 	//-----Pointer-----//
 	
-	
-	
 
-
-	
-	
 
 	//-----Function-----//
 
-public:
+
 	virtual void BeginPlay() override;
 	
 	UFUNCTION(BlueprintCallable)
 	void CreateInitialFloorTile();
 
 	UFUNCTION(BlueprintCallable)
-	void AddFloorTile();
+	AFloorTile* AddFloorTile();
 };

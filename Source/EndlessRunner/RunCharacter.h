@@ -29,8 +29,13 @@ public:
 public:
 	
 	//-----Variables-----//
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int32 CurrentLane = 1;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int32 NextLane = 0;
 
+	
 	//-----Pointers-----//
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* CameraComponent;
@@ -38,6 +43,8 @@ public:
 	class USpringArmComponent* SpringArm;
 	
 	class UCharacterMovementComponent* MovementComponent;
+
+	class AEndlessRunnerGameModeBase* RunnerGameMode;
 	//-----Functions-----//
 	
 	UFUNCTION()
@@ -50,4 +57,13 @@ public:
 	void MoveDawn();
 
 	void Running();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Lane")
+	void ChangeLane();
+
+	UFUNCTION(BlueprintCallable, Category = "Lane")
+	void ChangeLaneUpdate(float Alpha);
+
+	UFUNCTION(BlueprintCallable, Category = "Lane")
+	void ChangeLaneFinished();
 };

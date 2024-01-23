@@ -3,7 +3,11 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "RunCharacter.h"
+
+#include "EndlessRunnerGameModeBase.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -33,18 +37,13 @@ ARunCharacter::ARunCharacter()
     	MovementComponent -> JumpZVelocity = 600.f;
     	MovementComponent -> AirControl = 0.2f;
     }
-    else
-    {
-    	UE_LOG(LogTemp, Warning, TEXT("Null MovementComponent"));
-    }
-	
 }
 
 // Called when the game starts or when spawned
 void ARunCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	RunnerGameMode = Cast<AEndlessRunnerGameModeBase>(UGameplayStatics::GetGameMode(this));	
 }
 
 // Called every frame
@@ -69,12 +68,19 @@ void ARunCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 void ARunCharacter::MoveLeft()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Letf"));
+
+	NextLane = FMath::Clamp(CurrentLane - 1, 0, 2);
+	ChangeLane();
+	
+	
 }
 
 void ARunCharacter::MoveRight()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Right"));
+	NextLane = FMath::Clamp(CurrentLane + 1, 0, 2);
+	ChangeLane();
+	
+	
 }
 
 void ARunCharacter::MoveDawn()
@@ -87,4 +93,17 @@ void ARunCharacter::MoveDawn()
 void ARunCharacter::Running()
 {
 	AddMovementInput(GetActorForwardVector(), 1);
+}
+
+void ARunCharacter::ChangeLaneUpdate(float Alpah)
+{
+	FVector CharLocation = GetCapsuleComponent() -> GetComponentLocation();
+	CharLocation.Y = FMath::Lerp(RunnerGameMode -> LanesSwitchValue[CurrentLane], RunnerGameMode -> LanesSwitchValue[NextLane], Alpah);
+	SetActorLocation(CharLocation);
+	
+}
+
+void ARunCharacter::ChangeLaneFinished()
+{
+	CurrentLane = NextLane;
 }

@@ -67,7 +67,7 @@ void AFloorTile::Tick(float DeltaTime)
 
 void AFloorTile::SpawnItem()
 {
-	if (SmallObstacleClass)
+	if (IsValid(SmallObstacleClass) && IsValid(BigObstacleClass))
 	{
 		LaneSpawnItem(CenterLane);
 		LaneSpawnItem(LeftLane);
@@ -83,17 +83,17 @@ void AFloorTile::LaneSpawnItem(UArrowComponent* Lane)
 
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	const FTransform& SpawnLocation = Lane-> GetComponentTransform();
 	
-	
-	if (RandVal >= 0.5 && RandVal < 0.75)
+	if (UKismetMathLibrary::InRange_FloatFloat(RandVal, 0.5f, 0.75f, true, true))
 	{
-		const FTransform& SpawnLocation = Lane-> GetComponentTransform();
+		
 		AObstacle* Obstacle	= GetWorld() -> SpawnActor<AObstacle>(SmallObstacleClass, SpawnLocation);
 	}
 	
-	else if (RandVal >= 0.75 && RandVal < 1.f)
+	else if (UKismetMathLibrary::InRange_FloatFloat(RandVal, 0.75f, 1.f, true, true))
 	{
-		const FTransform& SpawnLocation = Lane-> GetComponentTransform();
+		
 		AObstacle* Obstacle	= GetWorld() -> SpawnActor<AObstacle>(BigObstacleClass, SpawnLocation);
 	}
 

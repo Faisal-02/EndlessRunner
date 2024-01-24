@@ -79,18 +79,24 @@ void AFloorTile::SpawnItem()
 void AFloorTile::LaneSpawnItem(UArrowComponent* Lane)
 {
 
-	float RandVal = FMath::FRandRange(0.f, 1.f);
+	const float RandVal = FMath::FRandRange(0.f, 1.f);
 
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	
 	
-	if (UKismetMathLibrary::InRange_FloatFloat(RandVal, 0.5f, 1.f, true, true))
+	if (RandVal >= 0.5 && RandVal < 0.75)
 	{
 		const FTransform& SpawnLocation = Lane-> GetComponentTransform();
 		AObstacle* Obstacle	= GetWorld() -> SpawnActor<AObstacle>(SmallObstacleClass, SpawnLocation);
 	}
 	
+	else if (RandVal >= 0.75 && RandVal < 1.f)
+	{
+		const FTransform& SpawnLocation = Lane-> GetComponentTransform();
+		AObstacle* Obstacle	= GetWorld() -> SpawnActor<AObstacle>(BigObstacleClass, SpawnLocation);
+	}
+
 	
 }
 

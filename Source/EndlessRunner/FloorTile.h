@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/ArrowComponent.h"
+#include "Templates/SubclassOfField.h"
 #include "FloorTile.generated.h"
 
 
@@ -37,7 +38,10 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Config")
 	TSubclassOf<AObstacle> SmallObstacleClass;
-	
+
+	UPROPERTY(EditAnywhere, Category = "Config")
+	TSubclassOf<AObstacle> BigObstacleClass;
+
 	//-----Pointers-----//
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USceneComponent* SceneComponent;

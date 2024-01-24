@@ -13,9 +13,12 @@ void AEndlessRunnerGameModeBase::BeginPlay()
 
 void AEndlessRunnerGameModeBase::CreateInitialFloorTile()
 {
-	
-	AFloorTile* Tile = AddFloorTile();
+	//the 3 firsts tiles should not be spawn with any items, then its allow to spawn items
+	AFloorTile* Tile = AddFloorTile(false);
+	AddFloorTile(false);
+	AddFloorTile(false);
 
+	
 	if (Tile)
 	{
 		LanesSwitchValue.Add(Tile -> LeftLane -> GetComponentLocation().Y);
@@ -23,20 +26,15 @@ void AEndlessRunnerGameModeBase::CreateInitialFloorTile()
 		LanesSwitchValue.Add(Tile -> RightLane -> GetComponentLocation().Y);
 	}
 	
-	for(float Val : LanesSwitchValue)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Val = %f"), Val);
-	}
-	
 	
 	for (int i = 0; i <NumInitialFloorTiles; i++)
 	{
-		AddFloorTile();
-		
+		AddFloorTile(true);
 	}
+	
 }
 
-AFloorTile* AEndlessRunnerGameModeBase::AddFloorTile()
+AFloorTile* AEndlessRunnerGameModeBase::AddFloorTile(bool bSpawnItems)
 {
 	UWorld* World = GetWorld();
 
@@ -47,6 +45,10 @@ AFloorTile* AEndlessRunnerGameModeBase::AddFloorTile()
 
 		if (Tile)
 		{
+			if (bSpawnItems)
+			{
+				Tile -> SpawnItem();
+			}
         	NextSpawnPoint = Tile -> GetAttachTransform();
 		}
 

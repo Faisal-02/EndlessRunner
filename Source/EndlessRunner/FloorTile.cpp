@@ -4,10 +4,12 @@
 #include "FloorTile.h"
 
 #include "EndlessRunnerGameModeBase.h"
+#include "Obstacle.h"
 #include "RunCharacter.h"
 #include "Components/ArrowComponent.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AFloorTile::AFloorTile()
@@ -61,6 +63,37 @@ void AFloorTile::Tick(float DeltaTime)
 	
 }
 
+
+
+void AFloorTile::SpawnItem()
+{
+	if (SmallObstacleClass)
+	{
+		LaneSpawnItem(CenterLane);
+		LaneSpawnItem(LeftLane);
+		LaneSpawnItem(RightLane);
+	}
+	
+}
+
+void AFloorTile::LaneSpawnItem(UArrowComponent* Lane)
+{
+
+	float RandVal = FMath::FRandRange(0.f, 1.f);
+
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	
+	
+	if (UKismetMathLibrary::InRange_FloatFloat(RandVal, 0.5f, 1.f, true, true))
+	{
+		const FTransform& SpawnLocation = Lane-> GetComponentTransform();
+		AObstacle* Obstacle	= GetWorld() -> SpawnActor<AObstacle>(SmallObstacleClass, SpawnLocation);
+	}
+	
+	
+}
+
 void AFloorTile::OnTriggerBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -69,7 +102,7 @@ void AFloorTile::OnTriggerBoxOverlap(UPrimitiveComponent* OverlappedComponent, A
 
 	if (RunCharacter)
 	{
-		RunGameMode -> AddFloorTile();
+		RunGameMode -> AddFloorTile(true);
 
 		GetWorld() -> GetTimerManager().SetTimer(TimerHandle, this, &AFloorTile::DestroyFloorTile, 2.f, false);
 	}
@@ -82,6 +115,6 @@ void AFloorTile::DestroyFloorTile()
 		GetWorld() -> GetTimerManager().ClearTimer(TimerHandle);
 
 		this -> Destroy();
+		
 	}
 }
-

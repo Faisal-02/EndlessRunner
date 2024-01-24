@@ -8,6 +8,7 @@
 #include "FloorTile.generated.h"
 
 
+class AObstacle;
 class UBoxComponent;
 class USceneComponent;
 class UStaticMeshComponent;
@@ -33,7 +34,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Timer")
 	FTimerHandle TimerHandle;
-	
+
+	UPROPERTY(EditAnywhere, Category = "Config")
+	TSubclassOf<AObstacle> SmallObstacleClass;
 	
 	//-----Pointers-----//
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -71,6 +74,15 @@ public:
 
 	UFUNCTION()
 	void DestroyFloorTile();
+
+	UFUNCTION(BlueprintCallable)
+	void SpawnItem();
+
+	UFUNCTION(BlueprintCallable)
+	void LaneSpawnItem(UArrowComponent* Lane);
+	
+
+	
 
 
 

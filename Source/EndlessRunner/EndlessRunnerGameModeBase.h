@@ -15,7 +15,7 @@ class ENDLESSRUNNER_API AEndlessRunnerGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
-
+public:
 	//-----Variables-----//
 
 	
@@ -26,7 +26,7 @@ class ENDLESSRUNNER_API AEndlessRunnerGameModeBase : public AGameModeBase
 	
 	UPROPERTY(EditAnywhere, Category = "Config")
 	int32 NumInitialFloorTiles = 10;
-public:
+
 	TArray<float> LanesSwitchValue;
 	
 	//-----Pointer-----//
@@ -42,5 +42,6 @@ public:
 	void CreateInitialFloorTile();
 
 	UFUNCTION(BlueprintCallable)
-	AFloorTile* AddFloorTile();
+	AFloorTile* AddFloorTile(bool bSpawnItems);
+	
 };

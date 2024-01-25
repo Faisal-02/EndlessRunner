@@ -28,5 +28,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 	class UStaticMeshComponent* StaticMesh;
 	//-----Functions-----//
-
+	UFUNCTION()
+	void OnObstcaleHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };

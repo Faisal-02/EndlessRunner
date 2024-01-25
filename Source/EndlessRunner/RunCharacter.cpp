@@ -7,6 +7,7 @@
 #include "EndlessRunnerGameModeBase.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/GameSession.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -106,4 +107,50 @@ void ARunCharacter::ChangeLaneUpdate(float Alpah)
 void ARunCharacter::ChangeLaneFinished()
 {
 	CurrentLane = NextLane;
+}
+
+void ARunCharacter::Death()
+{
+	if (!bIsDead)
+	{
+		const FVector Location = GetActorLocation();
+		const UWorld* World = GetWorld();
+        	if (World)
+        	{
+        		bIsDead = true;
+        		
+        		if (DeathParticleSystem)
+        		{
+        			UGameplayStatics::SpawnEmitterAtLocation(World, DeathParticleSystem, Location);
+        		}
+        		
+        		if (DeathSound)
+        		{
+        			UGameplayStatics::PlaySoundAtLocation(World, DeathSound, Location);
+        		}
+
+        		GetMesh() -> SetVisibility(false);
+        		DisableInput(nullptr);
+        		
+        	}
+		World ->GetTimerManager().SetTimer(RestartLevelHandle, this, &ARunCharacter::AfterDeath, 2.f);
+	}
+		
+
+		
+			
+	
+	
+	
+}
+
+void ARunCharacter::AfterDeath()
+{
+	if (RestartLevelHandle.IsValid())
+	{
+		GetWorld() -> GetTimerManager().ClearTimer(RestartLevelHandle);
+	}
+	UKismetSystemLibrary::ExecuteConsoleCommand(this, TEXT("RestartLevel"));
+	bIsDead = false;
+	
 }

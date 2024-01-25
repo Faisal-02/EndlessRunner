@@ -26,7 +26,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-public:
+
 	
 	//-----Variables-----//
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -35,6 +35,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 NextLane = 0;
 
+	FTimerHandle RestartLevelHandle;
 	
 	//-----Pointers-----//
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
@@ -45,6 +46,18 @@ public:
 	class UCharacterMovementComponent* MovementComponent;
 
 	class AEndlessRunnerGameModeBase* RunnerGameMode;
+
+	UPROPERTY(EditAnywhere, Category = "Assets")
+	class UParticleSystem* DeathParticleSystem;
+
+	UPROPERTY(EditAnywhere, Category = "Assets")
+	USoundBase* DeathSound;
+
+	UPROPERTY(VisibleAnywhere)
+	bool bIsDead = false;
+
+	
+	
 	//-----Functions-----//
 	
 	UFUNCTION()
@@ -66,4 +79,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Lane")
 	void ChangeLaneFinished();
+
+	UFUNCTION(BlueprintCallable, Category = "EndGame")
+	void Death();
+	
+	UFUNCTION(BlueprintCallable, Category = "EndGame")
+	void AfterDeath();	
 };

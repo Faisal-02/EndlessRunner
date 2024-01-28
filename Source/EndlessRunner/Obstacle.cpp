@@ -2,7 +2,6 @@
 
 
 #include "Obstacle.h"
-
 #include "RunCharacter.h"
 
 // Sets default values
@@ -15,14 +14,21 @@ AObstacle::AObstacle()
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
 	StaticMesh -> SetupAttachment(SceneComponent);
 
-	StaticMesh -> OnComponentHit.AddDynamic(this, &AObstacle::OnObstcaleHit);
+	
 }
 
-void AObstacle::OnObstcaleHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-	FVector NormalImpulse, const FHitResult& Hit)
+void AObstacle::BeginPlay()
 {
-	ARunCharacter* RunCharacter = Cast<ARunCharacter>(OtherActor);
-	if (RunCharacter)
+	Super::BeginPlay();
+
+	StaticMesh -> OnComponentHit.AddDynamic(this, &AObstacle::OnObstacleHit);
+}
+
+void AObstacle::OnObstacleHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+                              FVector NormalImpulse, const FHitResult& Hit)
+{
+	
+	if (ARunCharacter* RunCharacter = Cast<ARunCharacter>(OtherActor))
 	{
 		RunCharacter -> Death();
 	}

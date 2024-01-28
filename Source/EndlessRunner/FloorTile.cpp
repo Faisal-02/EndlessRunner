@@ -3,6 +3,7 @@
 
 #include "FloorTile.h"
 
+#include "CoinItem.h"
 #include "EndlessRunnerGameModeBase.h"
 #include "Obstacle.h"
 #include "RunCharacter.h"
@@ -56,18 +57,13 @@ void AFloorTile::BeginPlay()
 	
 }
 
-// Called every frame
-void AFloorTile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	
-}
+
 
 
 
 void AFloorTile::SpawnItem()
 {
-	if (IsValid(SmallObstacleClass) && IsValid(BigObstacleClass))
+	if (IsValid(SmallObstacleClass) && IsValid(BigObstacleClass) && IsValid(CoinClass))
 	{
 		LaneSpawnItem(CenterLane);
 		LaneSpawnItem(LeftLane);
@@ -79,24 +75,26 @@ void AFloorTile::SpawnItem()
 void AFloorTile::LaneSpawnItem(UArrowComponent* Lane)
 {
 
-	const float RandVal = FMath::FRandRange(0.f, 1.f);
+	const float RandVal = FMath::FRandRange(0.f, 1.1f);
 
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	const FTransform& SpawnLocation = Lane-> GetComponentTransform();
 	
-	if (UKismetMathLibrary::InRange_FloatFloat(RandVal, 0.5f, 0.75f, true, true))
+	if (UKismetMathLibrary::InRange_FloatFloat(RandVal, Percentage1, Percentage2, true, true))
 	{
-		
 		AObstacle* Obstacle	= GetWorld() -> SpawnActor<AObstacle>(SmallObstacleClass, SpawnLocation);
 	}
 	
-	else if (UKismetMathLibrary::InRange_FloatFloat(RandVal, 0.75f, 1.f, true, true))
+	else if (UKismetMathLibrary::InRange_FloatFloat(RandVal, Percentage2, Percentage3, true, true))
 	{
-		
 		AObstacle* Obstacle	= GetWorld() -> SpawnActor<AObstacle>(BigObstacleClass, SpawnLocation);
 	}
 
+	else if (UKismetMathLibrary::InRange_FloatFloat(RandVal, Percentage3, 1.f, true, true))
+	{
+		ACoinItem* Coin	= GetWorld() -> SpawnActor<ACoinItem>(CoinClass, SpawnLocation);
+	}
 	
 }
 
@@ -104,9 +102,9 @@ void AFloorTile::OnTriggerBoxOverlap(UPrimitiveComponent* OverlappedComponent, A
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 
-	ARunCharacter* RunCharacter = Cast<ARunCharacter>(OtherActor);
+	
 
-	if (RunCharacter)
+	if (ARunCharacter* RunCharacter = Cast<ARunCharacter>(OtherActor))
 	{
 		RunGameMode -> AddFloorTile(true);
 

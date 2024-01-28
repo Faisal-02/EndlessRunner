@@ -45,7 +45,7 @@ public:
 	
 	class UCharacterMovementComponent* MovementComponent;
 
-	class AEndlessRunnerGameModeBase* RunnerGameMode;
+	class AEndlessRunnerGameModeBase* RunGameMode;
 
 	UPROPERTY(EditAnywhere, Category = "Assets")
 	class UParticleSystem* DeathParticleSystem;
@@ -84,5 +84,8 @@ public:
 	void Death();
 	
 	UFUNCTION(BlueprintCallable, Category = "EndGame")
-	void AfterDeath();	
+	void AfterDeath();
+
+	UFUNCTION(BlueprintCallable, Category = "EndGame")
+	void AddCoin();
 };

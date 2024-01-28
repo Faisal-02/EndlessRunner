@@ -15,19 +15,19 @@ public:
 	// Sets default values for this actor's properties
 	AObstacle();
 
+	virtual void BeginPlay() override;
 
 
-public:	
 
 	//-----Variables-----//
 	
 	//-----Pointers-----//
 	UPROPERTY(VisibleAnywhere, Category = "Component")
-	class USceneComponent* SceneComponent;
+	USceneComponent* SceneComponent;
 
 	UPROPERTY(VisibleAnywhere, Category = "Component")
-	class UStaticMeshComponent* StaticMesh;
+	UStaticMeshComponent* StaticMesh;
 	//-----Functions-----//
 	UFUNCTION()
-	void OnObstcaleHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	void OnObstacleHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };

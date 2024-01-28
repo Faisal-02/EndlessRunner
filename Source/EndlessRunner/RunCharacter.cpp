@@ -1,13 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+#include "RunCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "RunCharacter.h"
-
 #include "EndlessRunnerGameModeBase.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/GameSession.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -44,7 +41,7 @@ ARunCharacter::ARunCharacter()
 void ARunCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	RunnerGameMode = Cast<AEndlessRunnerGameModeBase>(UGameplayStatics::GetGameMode(this));	
+	RunGameMode = Cast<AEndlessRunnerGameModeBase>(UGameplayStatics::GetGameMode(this));	
 }
 
 // Called every frame
@@ -99,7 +96,7 @@ void ARunCharacter::Running()
 void ARunCharacter::ChangeLaneUpdate(float Alpah)
 {
 	FVector CharLocation = GetCapsuleComponent() -> GetComponentLocation();
-	CharLocation.Y = FMath::Lerp(RunnerGameMode -> LanesSwitchValue[CurrentLane], RunnerGameMode -> LanesSwitchValue[NextLane], Alpah);
+	CharLocation.Y = FMath::Lerp(RunGameMode -> LanesSwitchValue[CurrentLane], RunGameMode -> LanesSwitchValue[NextLane], Alpah);
 	SetActorLocation(CharLocation);
 	
 }
@@ -152,5 +149,14 @@ void ARunCharacter::AfterDeath()
 	}
 	UKismetSystemLibrary::ExecuteConsoleCommand(this, TEXT("RestartLevel"));
 	bIsDead = false;
+	
+}
+
+void ARunCharacter::AddCoin()
+{
+	if (IsValid(RunGameMode))
+	{
+		RunGameMode -> AddCoin();
+	}
 	
 }

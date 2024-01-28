@@ -5,11 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/ArrowComponent.h"
-#include "Templates/SubclassOfField.h"
 #include "FloorTile.generated.h"
 
-
 class AObstacle;
+class ACoinItem;
 class UBoxComponent;
 class USceneComponent;
 class UStaticMeshComponent;
@@ -27,9 +26,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+public:
 
 	//-----Variables-----//
 
@@ -42,6 +39,18 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Config")
 	TSubclassOf<AObstacle> BigObstacleClass;
 
+	UPROPERTY(EditAnywhere, Category = "Config")
+	TSubclassOf<ACoinItem> CoinClass;
+
+
+	UPROPERTY(EditAnywhere, Category = "Item Spawn Chance")
+	float Percentage1 = 0.3f;
+
+	UPROPERTY(EditAnywhere, Category = "Item Spawn Chance")
+	float Percentage2 = 0.50;
+	UPROPERTY(EditAnywhere, Category = "Item Spawn Chance")
+	float Percentage3 = 0.75f;
+	
 	//-----Pointers-----//
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USceneComponent* SceneComponent;

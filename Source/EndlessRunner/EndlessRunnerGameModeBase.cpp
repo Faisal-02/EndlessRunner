@@ -14,7 +14,7 @@ void AEndlessRunnerGameModeBase::BeginPlay()
 void AEndlessRunnerGameModeBase::CreateInitialFloorTile()
 {
 	//the 3 firsts tiles should not be spawn with any items, then its allow to spawn items
-	AFloorTile* Tile = AddFloorTile(false);
+	const AFloorTile* Tile = AddFloorTile(false);
 	AddFloorTile(false);
 	AddFloorTile(false);
 
@@ -36,9 +36,9 @@ void AEndlessRunnerGameModeBase::CreateInitialFloorTile()
 
 AFloorTile* AEndlessRunnerGameModeBase::AddFloorTile(bool bSpawnItems)
 {
-	UWorld* World = GetWorld();
+	
 
-	if (World)
+	if (UWorld* World = GetWorld())
 	{
 		AFloorTile* Tile = World -> SpawnActor<AFloorTile>(FloorTileClass, NextSpawnPoint);
 
@@ -56,4 +56,10 @@ AFloorTile* AEndlessRunnerGameModeBase::AddFloorTile(bool bSpawnItems)
 	}
 
 	return nullptr;
+}
+
+void AEndlessRunnerGameModeBase::AddCoin()
+{
+	CoinCounter += 1;
+	UE_LOG(LogTemp, Warning, TEXT("ur coins = %i"), CoinCounter);
 }

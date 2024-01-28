@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "EndlessRunnerGameModeBase.generated.h"
 
+
 class AFloorTile;
 /**
  * 
@@ -17,7 +18,6 @@ class ENDLESSRUNNER_API AEndlessRunnerGameModeBase : public AGameModeBase
 
 public:
 	//-----Variables-----//
-
 	
 	UPROPERTY(EditAnywhere, Category = "Config")
 	TSubclassOf<AFloorTile> FloorTileClass;
@@ -28,6 +28,9 @@ public:
 	int32 NumInitialFloorTiles = 10;
 
 	TArray<float> LanesSwitchValue;
+
+	UPROPERTY(VisibleAnywhere)
+	int32 CoinCounter = 0;
 	
 	//-----Pointer-----//
 	
@@ -43,5 +46,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	AFloorTile* AddFloorTile(bool bSpawnItems);
-	
+
+	UFUNCTION(BlueprintCallable)
+	void AddCoin();
 };
